@@ -43,9 +43,8 @@
       
       <section class="videofeed">
         <h2>Video Feed</h2>
-        <div class="video-container">
-          <video id="video" autoplay></video>
-          <canvas id="canvas"></canvas>
+        <div class="video-container" style="width: 100%;">
+          <img id="cam" src="http://127.0.0.1:8080/frames.jpg" style="width: 100%;"/> <!-- change to the URL of pi ip -->
         </div>
         <h2>Pointmap</h2>
         <!-- Container for the point cloud rendering; relative positioning ensures
@@ -81,5 +80,12 @@
   <script src="/js/upload.js"></script>
   <script src="/js/download.js"></script>
   <script src="/js/controls.js"></script>
+  <script>
+    function refreshImage() {
+        var img = document.getElementById("cam");
+        img.src = "http://127.0.0.1:8080/frames.jpg?t=" + new Date().getTime(); // change to the URL of pi ip
+    }
+    setInterval(refreshImage, 50); // refresh every 50ms for smoother video
+  </script>
 </body>
 </html>
