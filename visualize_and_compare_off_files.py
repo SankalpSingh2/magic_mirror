@@ -56,7 +56,8 @@ def visualize_off_file(file_path, window_name=None):
         window_name=window_title,
         width=1024,
         height=768,
-        point_show_normal=False
+        point_show_normal=False,
+        mesh_show_back_face=True
     )
 
     return True
