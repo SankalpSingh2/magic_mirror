@@ -218,7 +218,9 @@ footer {
     margin-top: 0.5rem;
 }
 
-#fullscreen-button-xyz, #fullscreen-button-stl {
+
+
+#fullscreen-button-xyz, #fullscreen-button-glb {
     position: absolute;
     bottom: 10px;
     right: 10px;
@@ -229,20 +231,20 @@ footer {
     color: #0d0d0d;
     font-family: 'Lekton', Arial, Helvetica, sans-serif;
     font-size: 0.9rem;
-    text-align: center;
+    text-align: right;
     text-decoration: none;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-#fullscreen-button-xyz:hover, #fullscreen-button-stl:hover  {
+#fullscreen-button-xyz:hover, #fullscreen-button-glb:hover  {
     background-color: #171717;
     color: #d4cfc3;
     transform: translateY(-2px);
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 }
 
-#fullscreen-button-xyz:active, #fullscreen-button-stl:active {
+#fullscreen-button-xyz:active, #fullscreen-button-glb:active {
     background-color: #d4cfc3;
     color: #0d0d0d;
     transform: translateY(0);
