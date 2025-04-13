@@ -360,8 +360,8 @@ def smooth_off_file(input_file, output_file, min_distance=0.005, max_distance=0.
 
     # Create smoothed mesh with color transfer
     print("Creating smoothed mesh with texture transfer...")
-    smoothed_mesh = transfer_colors(original_mesh, vertex_colors, projected_points)
-
+    # smoothed_mesh = transfer_colors(original_mesh, vertex_colors, projected_points)
+    smoothed_mesh = trimesh.Trimesh(vertices=projected_points, faces=original_mesh.faces)
     # Save the result
     print(f"Saving to {output_file}...")
     smoothed_mesh.export(output_file)
