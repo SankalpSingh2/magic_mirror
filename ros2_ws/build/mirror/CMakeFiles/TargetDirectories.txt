@@ -1,0 +1,9 @@
+/home/m5kro/ros2_ws/build/mirror/CMakeFiles/uninstall.dir
+/home/m5kro/ros2_ws/build/mirror/CMakeFiles/mirror_uninstall.dir
+/home/m5kro/ros2_ws/build/mirror/CMakeFiles/test.dir
+/home/m5kro/ros2_ws/build/mirror/CMakeFiles/edit_cache.dir
+/home/m5kro/ros2_ws/build/mirror/CMakeFiles/rebuild_cache.dir
+/home/m5kro/ros2_ws/build/mirror/CMakeFiles/list_install_components.dir
+/home/m5kro/ros2_ws/build/mirror/CMakeFiles/install.dir
+/home/m5kro/ros2_ws/build/mirror/CMakeFiles/install/local.dir
+/home/m5kro/ros2_ws/build/mirror/CMakeFiles/install/strip.dir

@@ -1,0 +1,4 @@
+Invoking command in '/home/m5kro/ros2_ws/build/mirror': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --build /home/m5kro/ros2_ws/build/mirror -- -j12 -l12
+Invoked command in '/home/m5kro/ros2_ws/build/mirror' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --build /home/m5kro/ros2_ws/build/mirror -- -j12 -l12
+Invoking command in '/home/m5kro/ros2_ws/build/mirror': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --install /home/m5kro/ros2_ws/build/mirror
+Invoked command in '/home/m5kro/ros2_ws/build/mirror' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --install /home/m5kro/ros2_ws/build/mirror

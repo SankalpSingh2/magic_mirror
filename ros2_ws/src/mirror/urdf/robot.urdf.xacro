@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<robot name="robot" xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <!-- LINKS -->
+    <link name="base_link">
+        <visual>
+            <origin rpy="4.7124 0 4.7124" xyz="0 0 0" />
+        </visual>
+        <collision>
+            <origin rpy="4.7124 0 4.7124" xyz="0 0 0" />
+        </collision>
+        <inertial>
+            <origin rpy="4.7124 0 4.7124" xyz="0 0 0" />
+        </inertial>
+    </link>
+    
+    <link name="camera_depth_optical_frame">
+        <visual>
+            <origin rpy="4.7124 0 4.7124" xyz="0 0 0" />
+        </visual>
+        <collision>
+            <origin rpy="4.7124 0 4.7124" xyz="0 0 0" />
+        </collision>
+        <inertial>
+            <origin rpy="4.7124 0 4.7124" xyz="0 0 0" />
+        </inertial>
+    </link>
+
+    <link name="camera_color_optical_frame">
+        <visual>
+            <origin rpy="4.7124 0 4.7124" xyz="0 0 0" />
+        </visual>
+        <collision>
+            <origin rpy="4.7124 0 4.7124" xyz="0 0 0" />
+        </collision>
+        <inertial>
+            <origin rpy="4.7124 0 4.7124" xyz="0 0 0" />
+        </inertial>
+    </link>
+    
+    <joint name="base_to_camera_d" type="fixed">
+    	<origin rpy="4.7124 0 4.7124" xyz="0 0 0" />
+    	<parent link="base_link" />
+    	<child link="camera_depth_optical_frame" />
+    </joint>
+    
+    <joint name="base_to_camera_c" type="fixed">
+    	<origin rpy="4.7124 0 4.7124" xyz="0 0 0" />
+    	<parent link="base_link" />
+    	<child link="camera_color_optical_frame" />
+    </joint>
+</robot>

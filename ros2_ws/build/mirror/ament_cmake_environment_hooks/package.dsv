@@ -1,0 +1,4 @@
+source;share/mirror/local_setup.bash
+source;share/mirror/local_setup.dsv
+source;share/mirror/local_setup.sh
+source;share/mirror/local_setup.zsh
