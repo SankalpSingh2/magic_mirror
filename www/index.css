@@ -1,0 +1,256 @@
+@font-face {
+    font-family: 'Lekton';
+    src: url('fonts/lekton.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Lekton', Arial, Helvetica, sans-serif;
+    --x: 50%;
+    --y: 50%;
+    background-color: #0d0d0d;
+    background-image:
+        radial-gradient(rgba(13, 13, 13, 0.8) 80px),
+        radial-gradient(#d4cfc3 1px, transparent 1px);
+    background-size: 100% 100%, 10px 10px;
+    background-repeat: repeat;
+    color: #f1e8d9;
+    line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* When a mouse is detected, layer the spotlight overlay over the dotted background */
+body.mouse-detected {
+    background-image:
+        radial-gradient(circle at var(--x) var(--y), transparent 20px, rgba(13, 13, 13, 0.8) 70px),
+        radial-gradient(#d4cfc3 1px, transparent 1px);
+    background-size: 100% 100%, 10px 10px;
+    background-repeat: no-repeat, repeat;
+}
+
+header {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgba(20, 20, 20, 0.8);
+    color: #f1e8d9;
+    padding: 1.5rem 1rem;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.go-back-button {
+    margin-bottom: 0.5rem;
+}
+
+ul {
+    margin: 1rem 0;
+    padding-left: 1.5rem;
+    list-style-type: disc;
+}
+
+ul li {
+    margin: 0.5rem 0;
+    line-height: 1.4;
+}
+
+.button {
+    display: block;
+    padding: 0.5rem 1.5rem;
+    margin: 0.5rem 0;
+    border: none;
+    border-radius: 8px;
+    background-color: #d4cfc3;
+    color: #0d0d0d;
+    font-family: 'Lekton', Arial, Helvetica, sans-serif;
+    font-size: 1.4rem;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.button:hover {
+    background-color: #171717;
+    color: #d4cfc3;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.button:active {
+    background-color: #d4cfc3;
+    color: #0d0d0d;
+    transform: translateY(0);
+    box-shadow: none;
+}
+
+.pressed {
+    background-color: #171717;
+    color: #d4cfc3;
+    transform: translateY(-2px);
+} 
+
+a {
+    color: #d4cfc3;
+    text-decoration: none;
+    transition: color 0.3s ease, border-bottom 0.3s ease;
+    border-bottom: 1px solid transparent;
+}
+
+a:hover {
+    color: #f1e8d9;
+    border-bottom: 1px solid #f1e8d9;
+}
+
+header h1 {
+    font-size: 2.5rem;
+    letter-spacing: 1px;
+}
+
+main {
+    flex: 1;
+    padding: 2rem 1rem;
+    text-align: center;
+    font-size: 1.2rem;
+}
+
+footer {
+    background-color: rgba(20, 20, 20, 0.8);
+    text-align: center;
+    padding: 1rem;
+    font-size: 0.9rem;
+    color: #7f8c8d;
+    border-top: 1px solid #ccc;
+}
+
+.sections-container {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+    margin-top: 2rem;
+}
+
+.sections-container section {
+    opacity: 0;
+    /* start hidden */
+    animation: fadeIn 0.8s ease forwards;
+    background-color: rgba(44, 44, 44, 0.8);
+    padding: 1rem;
+    border: 1px solid #3c3c3c;
+    border-radius: 10px;
+}
+
+/* Horizontal layout for larger screens */
+@media (min-width: 768px) {
+    header {
+        flex-direction: row;
+        justify-content: center;
+    }
+
+    .sections-container {
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: flex-start;
+    }
+
+    .sections-container section {
+        flex: 1;
+        min-width: 300px;
+    }
+}
+
+/* Additional styling for upload/download forms to match theme */
+.uploadDownload form {
+    margin-bottom: 1.5rem;
+}
+
+/* Style file and text inputs to match section background and theme colors */
+.uploadDownload input[type="file"] {
+    width: 100%;
+    padding: 0.6rem;
+    margin: 0.5rem 0;
+    border: 1px solid #3c3c3c;
+    border-radius: 8px;
+    background-color: rgba(44, 44, 44, 0.8);
+    color: #f1e8d9;
+    font-family: 'Lekton', Arial, Helvetica, sans-serif;
+    font-size: 1.1rem;
+    transition: border-color 0.3s ease;
+}
+
+/* Placeholder color to ensure readability */
+.uploadDownload input[type="text"]::placeholder {
+    color: #f1e8d9;
+    opacity: 0.7;
+}
+
+/* Focus state for inputs for better user feedback */
+.uploadDownload input:focus {
+    outline: none;
+    border-color: #d4cfc3;
+}
+
+/* Make upload and download buttons stretch to full width within the form */
+.uploadDownload button.button {
+    width: 100%;
+    margin-top: 0.5rem;
+}
+
+#fullscreen-button-xyz, #fullscreen-button-stl {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 8px;
+    background-color: #d4cfc3;
+    color: #0d0d0d;
+    font-family: 'Lekton', Arial, Helvetica, sans-serif;
+    font-size: 0.9rem;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+#fullscreen-button-xyz:hover, #fullscreen-button-stl:hover  {
+    background-color: #171717;
+    color: #d4cfc3;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+#fullscreen-button-xyz:active, #fullscreen-button-stl:active {
+    background-color: #d4cfc3;
+    color: #0d0d0d;
+    transform: translateY(0);
+    box-shadow: none;
+}
+
+#upload-progress {
+    width: 100%;
+    height: 10px;
+}
+
