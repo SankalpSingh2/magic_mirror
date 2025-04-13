@@ -1,0 +1,17 @@
+/home/m5kro/ros2_ws/install/mirror/share/mirror//launch/slam_launch.py
+/home/m5kro/ros2_ws/install/mirror/share/mirror//urdf/robot.urdf.xacro
+/home/m5kro/ros2_ws/install/mirror/share/ament_index/resource_index/package_run_dependencies/mirror
+/home/m5kro/ros2_ws/install/mirror/share/ament_index/resource_index/parent_prefix_path/mirror
+/home/m5kro/ros2_ws/install/mirror/share/mirror/environment/ament_prefix_path.sh
+/home/m5kro/ros2_ws/install/mirror/share/mirror/environment/ament_prefix_path.dsv
+/home/m5kro/ros2_ws/install/mirror/share/mirror/environment/path.sh
+/home/m5kro/ros2_ws/install/mirror/share/mirror/environment/path.dsv
+/home/m5kro/ros2_ws/install/mirror/share/mirror/local_setup.bash
+/home/m5kro/ros2_ws/install/mirror/share/mirror/local_setup.sh
+/home/m5kro/ros2_ws/install/mirror/share/mirror/local_setup.zsh
+/home/m5kro/ros2_ws/install/mirror/share/mirror/local_setup.dsv
+/home/m5kro/ros2_ws/install/mirror/share/mirror/package.dsv
+/home/m5kro/ros2_ws/install/mirror/share/ament_index/resource_index/packages/mirror
+/home/m5kro/ros2_ws/install/mirror/share/mirror/cmake/mirrorConfig.cmake
+/home/m5kro/ros2_ws/install/mirror/share/mirror/cmake/mirrorConfig-version.cmake
+/home/m5kro/ros2_ws/install/mirror/share/mirror/package.xml

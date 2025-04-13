@@ -1,0 +1,1 @@
+/home/m5kro/ros2_ws/build/mirror/ament_cmake_core/mirrorConfig-version.cmake
