@@ -31,13 +31,13 @@
           <button class="button" type="submit">Upload</button>
         </form>
         
-        <h2>Download STL</h2>
+        <h2>Download GLB</h2>
         <!-- Download button and status -->
-        <button id="download-button" class="button" disabled>Download STL</button>
+        <button id="download-button" class="button" disabled>Download GLB</button>
         <span id="download-status">Waiting for output...</span>
-        <!-- STL Preview container: initially hidden -->
-        <div id="stl-preview-container" style="position: relative; width: 100%; height: 400px; display: none;">
-          <button id="fullscreen-button-stl" class="button">Fullscreen</button>
+        <!-- GLB Preview container: initially hidden -->
+        <div id="glb-preview-container" style="position: relative; width: 100%; height: 400px;">
+          <button id="fullscreen-button-glb">Fullscreen</button>
         </div>
       </section>
       
@@ -50,7 +50,7 @@
         <!-- Container for the point cloud rendering; relative positioning ensures
              that the GUI and fullscreen button are positioned relative to it -->
         <div id="pointcloud-container" style="position: relative; width: 100%; height: 400px;">
-          <button id="fullscreen-button-xyz" class="button">Fullscreen</button>
+          <button id="fullscreen-button-xyz">Fullscreen</button>
         </div>
       </section>
       

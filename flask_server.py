@@ -7,7 +7,7 @@ app = Flask(__name__, static_folder='www')
 app.config['UPLOAD_FOLDER'] = 'uploads'
 app.config['UPLOAD_FILE'] = 'upload.mp4'
 app.config['OUTPUT_FOLDER'] = 'output'
-app.config['OUTPUT_FILE'] = 'output.stl'
+app.config['OUTPUT_FILE'] = 'output.glb'
 
 goingForward = False
 goingBack = False
@@ -55,7 +55,7 @@ def upload():
     
     return jsonify({'message': 'Upload successful', 'filename': app.config['UPLOAD_FILE']}), 200
 
-# GET endpoint to serve output.stl from the output directory
+# GET endpoint to serve output.glb from the output directory
 @app.route('/output', methods=['GET'])
 def get_output():
     output_path = os.path.join(app.config['OUTPUT_FOLDER'], app.config['OUTPUT_FILE'])
