@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/index.css">
+  <title>Magic Mirror</title>
+
+  <!-- Import map for three.js and its addons using version 0.174.0 -->
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.174.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.174.0/examples/jsm/"
+    }
+  }
+  </script>
+</head>
+<body>
+  <header>
+    <h1>Magic Mirror</h1>
+  </header>
+  <main>
+    <p>Welcome to Magic Mirror!</p>
+    <div class="sections-container">
+      <section class="uploadDownload">
+        <h2>Upload Video</h2>
+        <form id="upload-form" enctype="multipart/form-data">
+          <input type="file" name="file" accept=".mp4" required>
+          <progress id="upload-progress" value="0" max="100"></progress>
+          <button class="button" type="submit">Upload</button>
+        </form>
+        
+        <h2>Download STL</h2>
+        <!-- Download button and status -->
+        <button id="download-button" class="button" disabled>Download STL</button>
+        <span id="download-status">Waiting for output...</span>
+        <!-- STL Preview container: initially hidden -->
+        <div id="stl-preview-container" style="position: relative; width: 100%; height: 400px; display: none;">
+          <button id="fullscreen-button-stl" class="button">Fullscreen</button>
+        </div>
+      </section>
+      
+      <section class="videofeed">
+        <h2>Video Feed</h2>
+        <div class="video-container">
+          <video id="video" autoplay></video>
+          <canvas id="canvas"></canvas>
+        </div>
+        <h2>Pointmap</h2>
+        <!-- Container for the point cloud rendering; relative positioning ensures
+             that the GUI and fullscreen button are positioned relative to it -->
+        <div id="pointcloud-container" style="position: relative; width: 100%; height: 400px;">
+          <button id="fullscreen-button-xyz" class="button">Fullscreen</button>
+        </div>
+      </section>
+      
+      <section class="controls">
+        <h2>Controls</h2>
+        <div id="directional-controls" style="display: inline-block; text-align: center;">
+          <div id="control-row-top" style="display: flex; justify-content: center; gap: 10px; margin: 5px 0;">
+            <button id="btn-forward" class="button">↑(W)</button>
+          </div>
+          <div id="control-row-middle" style="display: flex; justify-content: center; gap: 10px; margin: 5px 0;">
+            <button id="btn-left" class="button">←(A)</button>
+            <button id="btn-right" class="button">(D)→</button>
+          </div>
+          <div id="control-row-bottom" style="display: flex; justify-content: center; gap: 10px; margin: 5px 0;">
+            <button id="btn-back" class="button">↓(S)</button>
+          </div>
+        </div>
+      </section>      
+    </div>
+  </main>
+  <footer>
+    <p>&copy; 2025 Magic Mirror</p>
+  </footer>
+
+  <script src="/js/mouse.js"></script>
+  <script type="module" src="/js/pointcloud.js"></script>
+  <script src="/js/upload.js"></script>
+  <script src="/js/download.js"></script>
+  <script src="/js/controls.js"></script>
+</body>
+</html>
