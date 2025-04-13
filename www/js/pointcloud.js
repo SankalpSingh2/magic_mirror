@@ -35,7 +35,7 @@ function init() {
 
     // Set up the camera (similar to the XYZ example)
     camera = new THREE.PerspectiveCamera(50, container.clientWidth / container.clientHeight, 0.1, 100);
-    camera.position.set(10, 7, 10);
+    camera.position.set(5, 3, 5);
     scene.add(camera);
     camera.lookAt(scene.position);
 
@@ -51,7 +51,7 @@ function init() {
     controls.dynamicDampingFactor = 0.2;
 
     // Create the PointsMaterial once, so that GUI controls affect it
-    material = new THREE.PointsMaterial({ size: 0.1, color: 0xffffff });
+    material = new THREE.PointsMaterial({ size: 0.01, color: 0xffffff });
 
     // Set up the GUI controls in the top left of the container
     const gui = new GUI({ container: container });
