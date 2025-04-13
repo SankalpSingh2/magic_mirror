@@ -1,6 +1,7 @@
 import os
 from flask import Flask, send_from_directory, abort, request, jsonify
 from werkzeug.utils import secure_filename
+import final_pipeline
 
 # Create the Flask app and specify the static folder
 app = Flask(__name__, static_folder='www')
@@ -45,13 +46,7 @@ def upload():
     if file.filename == '':
         return jsonify({'error': 'No file selected for uploading.'}), 400
 
-    # Check file extension (accept only .mp4)
-    if not file.filename.lower().endswith('.mp4'):
-        return jsonify({'error': 'Unsupported file type. Please upload an MP4 file.'}), 400
-
-    # Save the file with a fixed name "upload.mp4" so that it overwrites any existing file
-    save_path = os.path.join(app.config['UPLOAD_FOLDER'], app.config['UPLOAD_FILE'])
-    file.save(save_path)
+    final_pipeline.add_point_cloud_data(file)
     
     return jsonify({'message': 'Upload successful', 'filename': app.config['UPLOAD_FILE']}), 200
 
@@ -64,6 +59,8 @@ def get_output():
         return "no output yet", 200
     
     return send_from_directory(app.config['OUTPUT_FOLDER'], app.config['OUTPUT_FILE'])
+
+
 
 # Additional control endpoints. Now they accept both GET and POST.
 @app.route('/forward', methods=['POST'])
