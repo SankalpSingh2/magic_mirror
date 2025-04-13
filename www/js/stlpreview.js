@@ -75,6 +75,7 @@ function init() {
       // Create MeshPhongMaterial using the current color setting from stlSettings
       stlMaterial = new THREE.MeshPhongMaterial({
         color: stlSettings.color,
+        side: THREE.DoubleSide
       });
       stlMesh = new THREE.Mesh(geometry, stlMaterial);
       scene.add(stlMesh);
