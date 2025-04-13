@@ -1,16 +1,19 @@
 import * as THREE from 'three';
 import { TrackballControls } from 'three/addons/controls/TrackballControls.js';
-import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { STLLoader } from 'three/addons/loaders/STLLoader.js';
 import { GUI } from 'three/addons/libs/lil-gui.module.min.js';
 
 let scene, camera, renderer, controls, clock;
-let gltfScene = null;
+let stlMesh = null;
 let axesHelper = null;
-let ambientLight, directionalLight;
+let stlMaterial = null; // Global material reference for the STL mesh
+let ambientLight, directionalLight;  // Global light references
 
-const gltfSettings = {
+// Update settings: add a color property for the mesh, and options for ambient/directional lights
+const stlSettings = {
   autoRotate: false,
   showAxes: false,
+  color: 0xffffff,
   ambientIntensity: 0.5,
   directionalIntensity: 0.8,
   directionalColor: "#ffffff"
@@ -20,105 +23,113 @@ init();
 animate();
 
 function init() {
-  const container = document.getElementById('glb-preview-container');
+  const container = document.getElementById('stl-preview-container');
   if (!container) {
-    console.error("GLTF/GLB preview container not found.");
+    console.error("STL preview container not found.");
     return;
   }
   
-  // Scene setup
+  // Create scene
   scene = new THREE.Scene();
   
-  // Camera setup
+  // Set up camera
   camera = new THREE.PerspectiveCamera(
     75,
     container.clientWidth / container.clientHeight,
     0.1,
     1000
   );
-  camera.position.set(0, 0, 10);
+  camera.position.set(0, 0, 50);
   camera.lookAt(0, 0, 0);
   scene.add(camera);
   
+  // Create a clock for delta timing
   clock = new THREE.Clock();
   
-  // Renderer setup
+  // Set up renderer
   renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
   renderer.setSize(container.clientWidth, container.clientHeight);
   container.appendChild(renderer.domElement);
   
-  // Controls setup
+  // Set up TrackballControls for freeform navigation
   controls = new TrackballControls(camera, renderer.domElement);
   controls.rotateSpeed = 2.0;
   controls.zoomSpeed = 1.2;
   controls.panSpeed = 0.3;
   controls.dynamicDampingFactor = 0.2;
   
-  // Lighting
-  ambientLight = new THREE.AmbientLight(0xffffff, gltfSettings.ambientIntensity);
+  // Add basic lighting using parameters from stlSettings
+  ambientLight = new THREE.AmbientLight(0xffffff, stlSettings.ambientIntensity);
   scene.add(ambientLight);
   
-  directionalLight = new THREE.DirectionalLight(new THREE.Color(gltfSettings.directionalColor), gltfSettings.directionalIntensity);
+  directionalLight = new THREE.DirectionalLight(new THREE.Color(stlSettings.directionalColor), stlSettings.directionalIntensity);
   directionalLight.position.set(20, 20, 20);
   scene.add(directionalLight);
   
-  // Load glTF file
-  const loader = new GLTFLoader();
+  // Load the STL file from /output using STLLoader (ignore textures)
+  const loader = new STLLoader();
   loader.load(
     '/output',
-    (gltf) => {
-      gltfScene = gltf.scene;
-
-      // Center the model
-      const box = new THREE.Box3().setFromObject(gltfScene);
-      const center = box.getCenter(new THREE.Vector3());
-      gltfScene.position.sub(center);
-
-      scene.add(gltfScene);
+    (geometry) => {
+      geometry.center();
+      // Create MeshPhongMaterial using the current color setting from stlSettings
+      stlMaterial = new THREE.MeshPhongMaterial({
+        color: stlSettings.color,
+      });
+      stlMesh = new THREE.Mesh(geometry, stlMaterial);
+      scene.add(stlMesh);
       
-      // Add AxesHelper to glTF scene so it rotates with the model.
+      // Create an AxesHelper and attach it to the STL mesh so it rotates with it.
       axesHelper = new THREE.AxesHelper(5);
-      axesHelper.visible = gltfSettings.showAxes;
-      gltfScene.add(axesHelper);
-
+      axesHelper.visible = stlSettings.showAxes;
+      stlMesh.add(axesHelper);
+      
       render();
     },
     (xhr) => {
       console.log(Math.round((xhr.loaded / xhr.total) * 100) + '% loaded');
     },
     (error) => {
-      console.error('Error loading glTF file:', error);
+      console.error('Error loading STL file:', error);
     }
   );
   
-  // GUI controls
+  // Create GUI control panel for STL preview inside the preview container
   const gui = new GUI({ container: container });
   gui.domElement.style.position = 'absolute';
   gui.domElement.style.top = '0px';
   gui.domElement.style.left = '0px';
   
-  gui.add(gltfSettings, 'autoRotate').name('Auto Rotate').onChange(render);
-  gui.add(gltfSettings, 'showAxes').name('Show Axes').onChange((value) => {
+  // Add color chooser similar to pointcloud.js
+  gui.addColor(stlSettings, 'color').name('Mesh Color').onChange((value) => {
+    if (stlMaterial) {
+      stlMaterial.color.set(value);
+      render();
+    }
+  });
+  
+  gui.add(stlSettings, 'autoRotate').name('Auto Rotate').onChange(render);
+  gui.add(stlSettings, 'showAxes').name('Show Axes').onChange((value) => {
     if (axesHelper) {
       axesHelper.visible = value;
       render();
     }
   });
   
-  // Lighting controls
-  gui.add(gltfSettings, 'ambientIntensity', 0, 2).name('Ambient Intensity').onChange((value) => {
+  // Add lighting controls:
+  gui.add(stlSettings, 'ambientIntensity', 0, 2).name('Ambient Intensity').onChange((value) => {
     if (ambientLight) {
       ambientLight.intensity = value;
       render();
     }
   });
-  gui.add(gltfSettings, 'directionalIntensity', 0, 2).name('Directional Intensity').onChange((value) => {
+  gui.add(stlSettings, 'directionalIntensity', 0, 2).name('Directional Intensity').onChange((value) => {
     if (directionalLight) {
       directionalLight.intensity = value;
       render();
     }
   });
-  gui.addColor(gltfSettings, 'directionalColor').name('Directional Color').onChange((value) => {
+  gui.addColor(stlSettings, 'directionalColor').name('Directional Color').onChange((value) => {
     if (directionalLight) {
       directionalLight.color.set(value);
       render();
@@ -126,9 +137,11 @@ function init() {
   });
   gui.open();
   
-  // Fullscreen button
-  const fsButton = document.getElementById('fullscreen-button-glb');
+  // Set up the STL preview fullscreen button positioned at bottom right
+  const fsButton = document.getElementById('fullscreen-button-stl');
   if (fsButton) {
+    fsButton.style.position = 'absolute';
+    fsButton.style.bottom = '10px';
     fsButton.style.right = '10px';
     fsButton.addEventListener('click', () => {
       if (!document.fullscreenElement) {
@@ -152,7 +165,7 @@ function init() {
 }
 
 function onWindowResize() {
-  const container = document.getElementById('glb-preview-container');
+  const container = document.getElementById('stl-preview-container');
   camera.aspect = container.clientWidth / container.clientHeight;
   camera.updateProjectionMatrix();
   renderer.setSize(container.clientWidth, container.clientHeight);
@@ -165,9 +178,9 @@ function animate() {
   const delta = clock.getDelta();
   controls.update();
   
-  if (gltfScene && gltfSettings.autoRotate) {
-    gltfScene.rotation.x += delta * 0.2;
-    gltfScene.rotation.y += delta * 0.5;
+  if (stlMesh && stlSettings.autoRotate) {
+    stlMesh.rotation.x += delta * 0.2;
+    stlMesh.rotation.y += delta * 0.5;
   }
   
   render();

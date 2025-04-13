@@ -19,18 +19,18 @@
           downloadStatus.textContent = "Output available!";
           outputAvailable = true;
   
-          // Unhide the GLB preview container
-          const previewContainer = document.getElementById('glb-preview-container');
+          // Unhide the stl preview container
+          const previewContainer = document.getElementById('stl-preview-container');
           if (previewContainer) {
             previewContainer.style.display = 'block';
           }
   
-          // Dynamically load glbpreview.js if not already loaded
-          if (!document.getElementById('glb-preview-script')) {
+          // Dynamically load stlpreview.js if not already loaded
+          if (!document.getElementById('stl-preview-script')) {
             const script = document.createElement('script');
             script.type = 'module';
-            script.id = 'glb-preview-script';
-            script.src = '/js/glbpreview.js';
+            script.id = 'stl-preview-script';
+            script.src = '/js/stlpreview.js';
             document.body.appendChild(script);
           }
         } else {
