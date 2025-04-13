@@ -23,12 +23,9 @@
   <main>
     <div class="sections-container">
       <section class="uploadDownload">
-        <h2>Upload Video</h2>
-        <form id="upload-form" enctype="multipart/form-data">
-          <input type="file" name="file" accept=".mp4" required>
-          <progress id="upload-progress" value="0" max="100"></progress>
-          <button class="button" type="submit">Upload</button>
-        </form>
+        <h2>Start Stop</h2>
+        <button id="start-button" class="button">Start</button>
+        <button id="stop-button" class="button">Stop</button>
         
         <h2>Download STL</h2>
         <!-- Download button and status -->
@@ -85,6 +82,29 @@
         img.src = "http://127.0.0.1:8080/frames.jpg?t=" + new Date().getTime(); // change to the URL of pi ip
     }
     setInterval(refreshImage, 50); // refresh every 50ms for smoother video
+  </script>
+  <script>
+    document.getElementById("start-button").addEventListener("click", function() {
+        fetch('http://127.0.0.1:5000/runner', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ command: "start" })
+        })
+        .then(response => response.text())
+        .then(data => console.log("Start command response:", data))
+        .catch(error => console.error("Error sending start command:", error));
+    });
+
+    document.getElementById("stop-button").addEventListener("click", function() {
+        fetch('http://127.0.0.1:5000/runner', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ command: "stop" })
+        })
+        .then(response => response.text())
+        .then(data => console.log("Stop command response:", data))
+        .catch(error => console.error("Error sending stop command:", error));
+    });
   </script>
 </body>
 </html>
