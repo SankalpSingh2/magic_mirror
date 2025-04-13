@@ -1,79 +1,59 @@
 (function() {
-    // Mapping: WASD keys mapped to command names and button IDs.
-    const keyMapping = {
-      'w': { command: 'forward', buttonId: 'btn-forward' },
-      'a': { command: 'left',    buttonId: 'btn-left' },
-      's': { command: 'back',    buttonId: 'btn-back' },
-      'd': { command: 'right',   buttonId: 'btn-right' }
+  const downloadButton = document.getElementById('download-button');
+  const downloadStatus = document.getElementById('download-status');
+  let pollingInterval;
+  let outputAvailable = false;
+  
+  // Function to poll /output
+  function checkOutput() {
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', '/output');
+    xhr.responseType = 'text';
+    xhr.onload = function() {
+      if (xhr.status === 200) {
+        const responseText = xhr.responseText.trim();
+        if (responseText !== "no output yet") {
+          // Output available; stop polling and enable download button
+          clearInterval(pollingInterval);
+          downloadButton.disabled = false;
+          downloadStatus.textContent = "Output available!";
+          outputAvailable = true;
+  
+          // Unhide the stl preview container
+          const previewContainer = document.getElementById('stl-preview-container');
+          if (previewContainer) {
+            previewContainer.style.display = 'block';
+          }
+  
+          // Dynamically load stlpreview.js if not already loaded
+          if (!document.getElementById('stl-preview-script')) {
+            const script = document.createElement('script');
+            script.type = 'module';
+            script.id = 'stl-preview-script';
+            script.src = '/js/stlpreview.js';
+            document.body.appendChild(script);
+          }
+        } else {
+          downloadStatus.textContent = "Waiting for output...";
+          downloadButton.disabled = true;
+        }
+      } else {
+        downloadStatus.textContent = "Error checking output!";
+      }
     };
+    xhr.onerror = function() {
+      downloadStatus.textContent = "Error checking output!";
+    };
+    xhr.send();
+  }
   
-    // Helper function to send a POST request with the given action.
-    function sendCommand(command, action) {
-      fetch('/' + command, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action })
-      }).catch(err => console.error(`Error sending ${command} ${action}:`, err));
+  // Start polling every 1 second
+  pollingInterval = setInterval(checkOutput, 1000);
+  
+  // When download is requested, simply send a GET request to /output
+  downloadButton.addEventListener('click', function() {
+    if (outputAvailable) {
+      window.location.href = "/output";
     }
-  
-    // Object to keep track of active keys (so we send only one "pressed" event per key).
-    const activeKeys = {};
-  
-    // Handle keydown events. If a WASD key is pressed and not already active, send "pressed".
-    function keyDownHandler(e) {
-      const key = e.key.toLowerCase();
-      if (key in keyMapping && !activeKeys[key]) {
-        activeKeys[key] = true;
-        sendCommand(keyMapping[key].command, 'pressed');
-        // Add "pressed" class to the corresponding button for visual feedback.
-        const btn = document.getElementById(keyMapping[key].buttonId);
-        if (btn) btn.classList.add('pressed');
-        e.preventDefault();
-      }
-    }
-  
-    // Handle keyup events: send "released" for WASD keys and remove visual feedback.
-    function keyUpHandler(e) {
-      const key = e.key.toLowerCase();
-      if (key in keyMapping && activeKeys[key]) {
-        delete activeKeys[key];
-        sendCommand(keyMapping[key].command, 'released');
-        const btn = document.getElementById(keyMapping[key].buttonId);
-        if (btn) btn.classList.remove('pressed');
-        e.preventDefault();
-      }
-    }
-  
-    window.addEventListener('keydown', keyDownHandler);
-    window.addEventListener('keyup', keyUpHandler);
-  
-    // Also attach click and touch event listeners to the directional buttons.
-    Object.keys(keyMapping).forEach((key) => {
-      const { command, buttonId } = keyMapping[key];
-      const btn = document.getElementById(buttonId);
-      if (btn) {
-        btn.addEventListener('mousedown', () => {
-          sendCommand(command, 'pressed');
-          btn.classList.add('pressed');
-        });
-        btn.addEventListener('mouseup', () => {
-          sendCommand(command, 'released');
-          btn.classList.remove('pressed');
-        });
-        btn.addEventListener('mouseleave', () => {
-          sendCommand(command, 'released');
-          btn.classList.remove('pressed');
-        });
-        btn.addEventListener('touchstart', (e) => {
-          e.preventDefault();
-          sendCommand(command, 'pressed');
-          btn.classList.add('pressed');
-        });
-        btn.addEventListener('touchend', () => {
-          sendCommand(command, 'released');
-          btn.classList.remove('pressed');
-        });
-      }
-    });
-  })();
-  
+  });
+})();

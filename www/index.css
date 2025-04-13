@@ -218,6 +218,8 @@ footer {
     margin-top: 0.5rem;
 }
 
+
+
 #fullscreen-button-xyz, #fullscreen-button-stl {
     position: absolute;
     bottom: 10px;
@@ -229,7 +231,7 @@ footer {
     color: #0d0d0d;
     font-family: 'Lekton', Arial, Helvetica, sans-serif;
     font-size: 0.9rem;
-    text-align: center;
+    text-align: right;
     text-decoration: none;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
