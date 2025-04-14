@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify
 import subprocess
+import time
 
 app = Flask(__name__)
 
@@ -23,8 +24,9 @@ def runner():
         
         # Replace the command below with your desired command to run.
         try:
-            process = subprocess.Popen(["echo", "Running command..."])
-            process2 = subprocess.Popen(["echo", "Running command2..."])
+            process = subprocess.Popen(["ros2 launch realsense2_camera rs_launch.py"])
+            time.sleep(5)
+            process2 = subprocess.Popen(["ros2 launch mirror slam_launch.py"])
         except Exception as e:
             return jsonify({"status": "error", "message": str(e)}), 500
 

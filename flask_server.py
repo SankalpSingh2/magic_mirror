@@ -25,17 +25,8 @@ def serve_index():
     else:
         return "No index.html found in the www directory.", 404
 
-# Generic route to serve any file in the www directory
-@app.route('/<path:filename>')
-def serve_file(filename):
-    # Verify that the file exists to prevent directory traversal
-    file_path = os.path.join(app.static_folder, filename)
-    if os.path.exists(file_path) and os.path.isfile(file_path):
-        return send_from_directory(app.static_folder, filename)
-    else:
-        abort(404)
 
-# POST endpoint for file uploads
+
 @app.route('/upload', methods=['POST'])
 def upload():
     if 'file' not in request.files:
@@ -46,10 +37,15 @@ def upload():
     if file.filename == '':
         return jsonify({'error': 'No file selected for uploading.'}), 400
 
-    final_pipeline.add_point_cloud_data(file)
-    
-    return jsonify({'message': 'Upload successful', 'filename': app.config['UPLOAD_FILE']}), 200
+    # Sanitize the file name and save file locally
+    filename = secure_filename(file.filename)
+    file_path = os.path.join(filename)
+    file.save(file_path)
 
+    # Now pass the saved file (or its path) to your pipeline
+    final_pipeline.add_point_cloud_data(file_path)
+
+    return jsonify({'message': 'Upload successful', 'filename': filename}), 200
 # GET endpoint to serve output.stl from the output directory
 @app.route('/output', methods=['GET'])
 def get_output():
@@ -111,6 +107,16 @@ def right():
         print("stopped going right")
     return jsonify({'command': 'right', 'action': action, 'status': 'received'}), 200
 
+# Generic route to serve any file in the www directory
+@app.route('/<path:filename>')
+def serve_file(filename):
+    # Verify that the file exists to prevent directory traversal
+    file_path = os.path.join(app.static_folder, filename)
+    if os.path.exists(file_path) and os.path.isfile(file_path):
+        return send_from_directory(app.static_folder, filename)
+    else:
+        abort(404)
+
 if __name__ == '__main__':
     # Run the server on all available interfaces and port 5000.
-    app.run(debug=True, port=5000)
+    app.run(debug=True,host='0.0.0.0', port=5000)

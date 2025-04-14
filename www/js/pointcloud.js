@@ -9,7 +9,7 @@ let material;
 let axesHelper;
 
 const settings = { 
-  autoRotate: false,
+  autoRotate: true,
   showAxes: false
 };
 
@@ -71,7 +71,7 @@ function init() {
 
     // Begin updating the point cloud immediately and then every second
     updatePointCloud();
-    setInterval(updatePointCloud, 1000);
+    setInterval(updatePointCloud, 100000000000);
 
     window.addEventListener('resize', onWindowResize);
 

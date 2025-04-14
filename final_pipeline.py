@@ -7,7 +7,6 @@ import ransac_smoothen_off
 import o3d_off_to_stl
 
 perma_mesh = o3d.io.read_point_cloud("./www/pointcloud.xyz")
-counter = 0
 
 def draft_stl():
     pcd_tree = o3d.geometry.KDTreeFlann(perma_mesh)
@@ -15,11 +14,12 @@ def draft_stl():
     o3d.io.write_triangle_mesh("output_mesh.off", mesh)
 
 def add_point_cloud_data(data):
-    perma_mesh = perma_mesh + data
-    counter += 1
-    if counter % 50 == 0:
-        o3d.io.write_point_cloud("./www/pointcloud.xyz", perma_mesh)
-        draft_stl()
+    global counter
+    global perma_mesh
+    d = o3d.io.read_point_cloud(data)
+    perma_mesh = perma_mesh + d
+    o3d.io.write_point_cloud("./www/pointcloud.xyz", perma_mesh)
+    draft_stl()
 
 
 def load_point_cloud(file_path = ""):

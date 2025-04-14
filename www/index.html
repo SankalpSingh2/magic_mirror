@@ -37,12 +37,6 @@
         </div>
       </section>
       
-      <section class="videofeed">
-        <h2>Video Feed</h2>
-        <div class="video-container" style="width: 100%;">
-          <img id="cam" src="http://127.0.0.1:8080/frames.jpg" style="width: 100%;"/> <!-- change to the URL of pi ip -->
-        </div>
-      </section>
       
       <section class="controls">
         <h2>Controls</h2>
@@ -85,10 +79,8 @@
   </script>
   <script>
     document.getElementById("start-button").addEventListener("click", function() {
-        fetch('http://127.0.0.1:5000/runner', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ command: "start" })
+        fetch('http://192.168.122.35:5000/run', {
+            method: 'GET'
         })
         .then(response => response.text())
         .then(data => console.log("Start command response:", data))
@@ -96,10 +88,8 @@
     });
 
     document.getElementById("stop-button").addEventListener("click", function() {
-        fetch('http://127.0.0.1:5000/runner', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ command: "stop" })
+        fetch('http://192.168.122.35:5000/stop', {
+            method: 'GET'
         })
         .then(response => response.text())
         .then(data => console.log("Stop command response:", data))

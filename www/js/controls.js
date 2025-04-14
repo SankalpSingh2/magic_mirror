@@ -9,10 +9,8 @@
   
     // Helper function to send a POST request with the given action.
     function sendCommand(command, action) {
-      fetch('/' + command, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action: action })
+      fetch('http://100.96.145.41:8000/' + command, {
+        method: 'GET'
       }).catch(err => console.error(`Error sending ${command} ${action}:`, err));
     }
   
@@ -22,7 +20,6 @@
     // Handle keydown events.
     function keyDownHandler(e) {
       // If the key is repeating (held down), ignore it.
-      if (e.repeat) return;
   
       const key = e.key.toLowerCase();
       if (key in keyMapping && !activeKeys[key]) {
@@ -30,7 +27,6 @@
         sendCommand(keyMapping[key].command, 'pressed');
         const btn = document.getElementById(keyMapping[key].buttonId);
         if (btn) btn.classList.add('pressed');
-        e.preventDefault();
       }
     }
   
@@ -42,7 +38,6 @@
         sendCommand(keyMapping[key].command, 'released');
         const btn = document.getElementById(keyMapping[key].buttonId);
         if (btn) btn.classList.remove('pressed');
-        e.preventDefault();
       }
     }
   
